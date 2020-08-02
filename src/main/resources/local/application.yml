@@ -1,0 +1,84 @@
+server:
+  port: 8085
+  servlet:
+    context-path: /komehyo
+  tomcat:
+    accept-count: 100
+    max-threads: 100
+    max-connections: 200
+
+
+
+spring:
+  application:
+    name: komehyo
+  banner:
+    location: Budda.txt
+  datasource:
+    app:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://rm-uf62k1944wz99gu98o.mysql.rds.aliyuncs.com/g1_app_d9503?autoReconnect=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+      username: c13701878548
+      password: c13701878548
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    config:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://rm-uf62k1944wz99gu98o.mysql.rds.aliyuncs.com/g1_app_d9503?autoReconnect=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+      username: c13701878548
+      password: c13701878548
+      driver-class-name: com.mysql.cj.jdbc.Driver
+#  datasource:
+#    app:
+#      type: com.alibaba.druid.pool.DruidDataSource
+#      url: jdbc:mysql://192.168.2.160:3306/g1_app_d9503?autoReconnect=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+#      username: ditatest
+#      password: dita2020
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#    config:
+#      type: com.alibaba.druid.pool.DruidDataSource
+#      url: jdbc:mysql://192.168.2.160:3306/g1_app_d9503?autoReconnect=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+#      username: ditatest
+#      password: dita2020
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+itext:
+  pdf:
+    widthA: 4.25
+    widthB: 4.25
+    widthC: 1.13
+    widthD: 3.25
+    widthE: 4.25
+  font:
+    sizeCom: 6
+    sizeGoodName: 14
+    sizeBrand: 6
+    sizeOther: 6
+  image:
+    width: 1
+    height: 5
+
+file:
+  pdf:
+    path: D:\outTest\pdf\
+  zip:
+    path: D:\outTest\zip\
+  barcode:
+    path: D:\outTest\barcode\
+  template:
+    path: D:\outTest\template\good_import.xlsx
+
+#logging:
+#  config: classpath:logback.xml
+
+#mybatis:
+#  mapper-locations: classpath*:**/*Mapper.xml
+
+
+
+
+
+
+
+
+
