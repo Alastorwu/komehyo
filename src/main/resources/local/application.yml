@@ -6,7 +6,11 @@ server:
     accept-count: 100
     max-threads: 100
     max-connections: 200
-
+  ssl:
+    enabled: true
+    key-store: classpath:komehyo-china.com.pfx
+    key-store-password: V5YfUF07
+    key-store-type: PKCS12
 
 
 spring:
