@@ -133,7 +133,12 @@ public class ITextPdfComponent {
         PdfPRow row1 = new PdfPRow(cells1);
         //单元格
         cells1[0].setPhrase(new Paragraph("级别"+param.getSalesRank(),fontCom));
-        cells1[3].setPhrase(new Paragraph(param.getCategory2(),fontCom));
+        if("jewelry".equals(param.getType())){
+            cells1[3].setPhrase(new Paragraph(param.getCategory(),fontCom));
+        }else{
+            cells1[3].setPhrase(new Paragraph(param.getCategory2(),fontCom));
+        }
+
         cells1[3].setColspan(2);
 
         //行2
