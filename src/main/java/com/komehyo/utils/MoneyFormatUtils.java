@@ -14,16 +14,23 @@ public class MoneyFormatUtils {
         if(obj instanceof  String){
             if(StringUtils.isNotBlank(obj+"") && !"null".equals(obj)){
                 BigDecimal b = new BigDecimal(obj+"");
-                return numberFormat.format(b);
+                return replace(numberFormat.format(b));
             }
         }else{
-            return numberFormat.format(obj);
+            return replace(numberFormat.format(obj));
         }
         return null;
     }
 
+    private static String replace(String format){
+        if(StringUtils.isBlank(format)){
+            return format;
+        }
+        return format.replaceAll("\\.00","");
+    }
+
     public static void main(String[] args) {
-        String s = MoneyFormatUtils.formatChina3(new BigDecimal(0.01));
+        String s = MoneyFormatUtils.formatChina3(new BigDecimal(1110.00));
         System.out.println(s);
     }
 }

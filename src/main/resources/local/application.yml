@@ -53,14 +53,9 @@ itext:
     widthC: 1.13
     widthD: 3.25
     widthE: 4.25
-  font:
-    sizeCom: 6
-    sizeGoodName: 14
-    sizeBrand: 6
-    sizeOther: 6
   image:
-    width: 1
-    height: 5
+    width: 3.5
+    height: 2.5
 
 file:
   pdf:

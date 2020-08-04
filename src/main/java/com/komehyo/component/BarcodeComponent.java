@@ -1,6 +1,7 @@
 package com.komehyo.component;
 
 import org.apache.commons.lang3.StringUtils;
+import org.krysalis.barcode4j.impl.codabar.CodabarBean;
 import org.krysalis.barcode4j.impl.code39.Code39Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
+
+import static org.krysalis.barcode4j.HumanReadablePlacement.HRP_NONE;
 
 @Component
 public class BarcodeComponent {
@@ -59,7 +62,7 @@ public class BarcodeComponent {
             return;
         }
 
-        Code39Bean bean = new Code39Bean();
+        CodabarBean bean = new CodabarBean();
 
         // 精细度
         final int dpi = 150;
@@ -70,6 +73,7 @@ public class BarcodeComponent {
         bean.setModuleWidth(moduleWidth);
         bean.setWideFactor(3);
         bean.doQuietZone(false);
+        bean.setMsgPosition(HRP_NONE);
 
         String format = "image/png";
         try {

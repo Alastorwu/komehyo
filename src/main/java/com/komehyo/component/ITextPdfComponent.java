@@ -4,6 +4,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.komehyo.dao.entity.GoodsWithBLOBs;
 import com.komehyo.utils.MoneyFormatUtils;
+import com.komehyo.utils.StringLengthUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -36,21 +37,6 @@ public class ITextPdfComponent {
 
     @Value("${itext.pdf.widthE}")
     private String widthE;
-
-
-    @Value("${itext.font.sizeCom}")
-    private String sizeCom;
-
-    @Value("${itext.font.sizeGoodName}")
-    private String sizeGoodName;
-
-
-    @Value("${itext.font.sizeBrand}")
-    private String sizeBrand;
-
-
-    @Value("${itext.font.sizeOther}")
-    private String sizeOther;
 
     @Value("${file.pdf.path}")
     private String pdfPath;
@@ -85,7 +71,7 @@ public class ITextPdfComponent {
         String retuenPath = pdfPath + "/" + param.getCommodityCode() + ".pdf";
 
         // 1.新建document对象
-        Document document = new Document();
+        Document document = new Document(new RectangleReadOnly(370.0F, 660), 10F, 0F, 16F, 0F);
         // 2.建立一个书写器(Writer)与document对象关联，通过书写器(Writer)可以将文档写入到磁盘中。
         // 创建 PdfWriter 对象 第一个参数是对文档对象的引用，第二个参数是文件的实际名称，在该名称中还会给出其输出路径。
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(retuenPath));
@@ -100,16 +86,23 @@ public class ITextPdfComponent {
                 ,Float.valueOf(widthD)
                 ,Float.valueOf(widthE) };
         BaseFont bfChinese = BaseFont.createFont("STSong-Light","UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
+        BaseFont bfCode = BaseFont.createFont("C:\\Windows\\Fonts\\SIMHEI.TTF", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
         Font fontCom = new Font(bfChinese);
-        Font fontGoodName = new Font(bfChinese);
         Font fontBrand = new Font(bfChinese);
+        Font fontPrice = new Font(bfChinese);
+        Font fontGoodName = new Font(bfChinese);
+        Font fontCode = new Font(bfCode);
         Font fontOther = new Font(bfChinese);
         fontGoodName.setStyle(Font.BOLD);
         fontBrand.setStyle(Font.BOLD);
-        fontCom.setSize(Float.valueOf(sizeCom));
-        fontGoodName.setSize(Float.valueOf(sizeGoodName));
-        fontBrand.setSize(Float.valueOf(sizeBrand));
-        fontOther.setSize(Float.valueOf(sizeOther));
+        fontPrice.setStyle(Font.BOLD);
+        fontCode.setStyle(Font.BOLD);
+        fontCom.setSize(Float.valueOf(19));
+        fontGoodName.setSize(Float.valueOf(19));
+        fontBrand.setSize(Float.valueOf(28));
+        fontPrice.setSize(Float.valueOf(42));
+        fontCode.setSize(Float.valueOf(25));
+        fontOther.setSize(Float.valueOf(19));
 
         //中文字体,解决中文不能显示问题
 //        BaseFont bfChinese = BaseFont.createFont("STSong-Light","UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
@@ -123,17 +116,19 @@ public class ITextPdfComponent {
         // 5列的表.
         PdfPTable table = new PdfPTable(5);
         //table.setWidthPercentage(100); // 宽度100%填充
-//        table.setSpacingBefore(10f); // 前间距
-//        table.setSpacingAfter(10f); // 后间距
-        table.setTotalWidth(37);
+        table.setPaddingTop(0);
+        table.setSpacingBefore(0); // 前间距
+        table.setSpacingAfter(0); // 后间距
+        table.setWidthPercentage(100);
+        //table.setTotalWidth(37);
         //table.setLockedWidth(true);
         List<PdfPRow> listRow = table.getRows();
         //设置列宽
         //float[] columnWidths = { 3.88f, 3.88f, 1f, 2.88f, 3.88f };
         table.setWidths(columnWidths);
-        PdfPCell[] cells0 = initPdfCell(5);
+        /*PdfPCell[] cells0 = initPdfCell(5);
         PdfPRow row0 = new PdfPRow(cells0);
-        cells0[0].setPhrase(new Paragraph("",fontCom));
+        cells0[0].setPhrase(new Paragraph("",fontCom));*/
         PdfPCell[] cells1 = initPdfCell(5);
         PdfPRow row1 = new PdfPRow(cells1);
         //单元格
@@ -143,7 +138,15 @@ public class ITextPdfComponent {
 
         //行2
         PdfPCell[] cells2= initPdfCell(5);
-        cells2[0].setPhrase(new Paragraph(param.getBrandName(),fontGoodName));
+        for (PdfPCell pdfPCell : cells2) {
+            pdfPCell.setFixedHeight(50);
+        }
+        String brandName = param.getBrandName();
+        if(StringLengthUtils.length(brandName)>24){
+            int size = StringLengthUtils.length(brandName)-24;
+            fontBrand.setSize(fontBrand.getSize()-size);
+        }
+        cells2[0].setPhrase(new Paragraph(brandName,fontBrand));
         cells2[0].setColspan(5);
         PdfPRow row2 = new PdfPRow(cells2);
 
@@ -231,7 +234,9 @@ public class ITextPdfComponent {
         if("jewelry".equals(param.getType())){
             cells7[0].setPhrase(new Paragraph(param.getDiamondGrade(),fontCom));
             cells7[0].setColspan(2);
-            cells7[3].setPhrase(new Paragraph(param.getGemstoneSize2()+param.getJewelrySize2Unit(),fontCom));
+            String gemstoneSize2 = param.getGemstoneSize2() + "";
+            gemstoneSize2 = gemstoneSize2.replaceAll("\\.00","");
+            cells7[3].setPhrase(new Paragraph(gemstoneSize2+param.getJewelrySize2Unit(),fontCom));
             cells7[3].setColspan(2);
         }else if("watch".equals(param.getType())){
             cells7[3].setPhrase(new Paragraph(param.getWaterResistance(),fontCom));
@@ -239,8 +244,14 @@ public class ITextPdfComponent {
         }
         PdfPRow row7 = new PdfPRow(cells7);
 
-        PdfPCell[] cells8 = initPdfCell(5);
-        cells8[0].setPhrase(new Paragraph("￥"+ MoneyFormatUtils.formatChina3(param.getSalePrice()),fontGoodName));
+        PdfPCell[] cells8 = new PdfPCell[5];
+        for (int i = 0; i < cells8.length; i++) {
+            cells8[i] = new PdfPCell();
+            cells8[i].setBorder(0);
+            cells8[i].setFixedHeight(52);
+        }
+        cells8[0].setPhrase(new Paragraph("￥"+ MoneyFormatUtils.formatChina3(param.getSalePrice()),fontPrice));
+        cells8[0].setHorizontalAlignment(Element.ALIGN_CENTER);
         cells8[0].setColspan(3);
         cells8[3].setPhrase(new Paragraph("市场参考价\n￥"+MoneyFormatUtils.formatChina3(param.getSetPrice()),fontCom));
         cells8[3].setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -248,19 +259,29 @@ public class ITextPdfComponent {
         PdfPRow row8 = new PdfPRow(cells8);
 
 
-        PdfPCell[] cells10 = initPdfCell(5);
+        PdfPCell[] cells10 = new PdfPCell[5];
+        for (int i = 0; i < cells10.length; i++) {
+            cells10[i] = new PdfPCell();
+            cells10[i].setBorder(0);
+            cells10[i].setFixedHeight(55);
+        }
         Image image1 = Image.getInstance(generateBarCode(param.getCommodityCode()));
-        //image1.scaleAbsolute(imageWidth, imageHeight);
         cells10[0].setImage(image1);
+        cells10[0].setHorizontalAlignment(Element.ALIGN_CENTER);
         cells10[0].setColspan(5);
         PdfPRow row10 = new PdfPRow(cells10);
 
-        /*PdfPCell[] cells11 = initPdfCell(5);
-        cells11[0].setPhrase(new Paragraph("2600028961772",fontBrand));
+        PdfPCell[] cells11 = new PdfPCell[5];
+        for (int i = 0; i < cells10.length; i++) {
+            cells11[i] = new PdfPCell();
+            cells11[i].setBorder(0);
+            cells11[i].setFixedHeight(43);
+        }
+        cells11[0].setPhrase(new Paragraph(param.getCommodityCode(),fontCode));
         cells11[0].setHorizontalAlignment(Element.ALIGN_CENTER);
         cells8[3].setColspan(2);
         cells11[0].setColspan(5);
-        PdfPRow row11 = new PdfPRow(cells11);*/
+        PdfPRow row11 = new PdfPRow(cells11);
 
         PdfPCell[] cells12 = initPdfCell(5);
         if("jewelry".equals(param.getType())){
@@ -278,16 +299,7 @@ public class ITextPdfComponent {
 
         PdfPCell[] cells13 = initPdfCell(5);
         if("jewelry".equals(param.getType())){
-            String gemstoneAccessoriesCheckType = param.getGemstoneAccessoriesCheckType();
-            if(StringUtils.isNotBlank(gemstoneAccessoriesCheckType)){
-                String[] split = gemstoneAccessoriesCheckType.split(",");
-                if(split!=null){
-                    for (String s : split) {
-
-                    }
-                }
-            }
-            cells13[1].setPhrase(new Paragraph(gemstoneAccessoriesCheckType,fontCom));
+            cells13[1].setPhrase(new Paragraph(param.getGemstoneAccessoriesCheckType(),fontCom));
         }else if("bags".equals(param.getType())){
             cells13[1].setPhrase(new Paragraph(param.getBagAccessories(),fontCom));
         }else if("watch".equals(param.getType())){
@@ -367,7 +379,7 @@ public class ITextPdfComponent {
         PdfPRow row18 = new PdfPRow(cells18);
 
 
-        listRow.add(row0);
+        //listRow.add(row0);
         listRow.add(row1);
         listRow.add(row2);
         listRow.add(row3);
@@ -378,7 +390,7 @@ public class ITextPdfComponent {
         listRow.add(row8);
         //listRow.add(row9);
         listRow.add(row10);
-//        listRow.add(row11);
+        listRow.add(row11);
         listRow.add(row12);
         listRow.add(row13);
         listRow.add(row14);
@@ -437,7 +449,8 @@ public class ITextPdfComponent {
         for (int j = 0; j < i; j++) {
             PdfPCell cell = new PdfPCell();
             cell.setBorder(0);
-            cell.setMinimumHeight(3.3F);
+            cell.setFixedHeight(32);
+            cell.setNoWrap(true);
             cells.add(cell);
         }
         return cells.toArray(new PdfPCell[i]);

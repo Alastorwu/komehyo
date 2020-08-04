@@ -28,7 +28,7 @@ public class GoodToPdfServiceTest {
 
     @Test
     public void goodToPdf() throws IOException, DocumentException {
-        String s = goodToPdfService.goodToPdf(814);
+        String s = goodToPdfService.goodToPdf(701);
         System.out.println(s);
     }
 
