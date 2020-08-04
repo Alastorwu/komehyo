@@ -82,7 +82,7 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                 selectByExampleQueryId="false">
         </table>-->
-        <table tableName="jewelry_size2" domainObjectName="JewelrySize2"
+        <table tableName="t_good_excel" domainObjectName="GoodExcel"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

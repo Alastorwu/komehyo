@@ -5,6 +5,7 @@ import com.itextpdf.text.pdf.*;
 import com.komehyo.dao.entity.GoodsWithBLOBs;
 import com.komehyo.utils.MoneyFormatUtils;
 import com.komehyo.utils.StringLengthUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 public class ITextPdfComponent {
 
@@ -53,9 +55,9 @@ public class ITextPdfComponent {
         if(!file.isDirectory()){
             boolean mkdirs = file.mkdirs();
             if (mkdirs)
-                System.out.println("路径【"+barcodePath+"】不存在，新建文件夹");
+                log.info("路径【"+barcodePath+"】不存在，新建文件夹");
         }
-        System.out.println("条形码生成=="+ barcodeComponent.generateFile(code, barcodePath+"barcode.png"));
+        log.info("条形码生成=="+ barcodeComponent.generateFile(code, barcodePath+"barcode.png"));
         return barcodePath+"barcode.png";
     }
 
@@ -66,7 +68,7 @@ public class ITextPdfComponent {
         if(!file.isDirectory()){
             boolean mkdirs = file.mkdirs();
             if (mkdirs)
-                System.out.println("路径【"+pdfPath+"】不存在，新建文件夹");
+                log.info("路径【"+pdfPath+"】不存在，新建文件夹");
         }
         String retuenPath = pdfPath + "/" + param.getCommodityCode() + ".pdf";
 
@@ -407,7 +409,7 @@ public class ITextPdfComponent {
         document.add(table);
         // 5.关闭文档
         document.close();
-        System.out.println("pdf生成完成;");
+        log.info("pdf生成完成;");
         return retuenPath;
     }
 

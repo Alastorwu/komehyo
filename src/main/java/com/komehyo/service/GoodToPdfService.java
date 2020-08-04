@@ -6,6 +6,7 @@ import com.komehyo.dao.entity.*;
 import com.komehyo.dao.mapper.app.*;
 import com.komehyo.dao.mapper.config.InternationalMapper;
 import com.komehyo.utils.ZipUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class GoodToPdfService {
 
