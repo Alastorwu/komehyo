@@ -87,7 +87,8 @@ public class ITextPdfComponent {
                 ,Float.valueOf(widthC)
                 ,Float.valueOf(widthD)
                 ,Float.valueOf(widthE) };
-        BaseFont bfChinese = BaseFont.createFont("STSong-Light","UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
+//        BaseFont bfChinese = BaseFont.createFont("STSong-Light","UniGB-UCS2-H",BaseFont.NOT_EMBEDDED);
+        BaseFont bfChinese = BaseFont.createFont("C:\\Windows\\Fonts\\SIMHEI.TTF", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
         BaseFont bfCode = BaseFont.createFont("C:\\Windows\\Fonts\\SIMHEI.TTF", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
         Font fontCom = new Font(bfChinese);
         Font fontBrand = new Font(bfChinese);

@@ -79,6 +79,8 @@ public class GoodToPdfService {
     @Resource
     private MaterialMapper materialMapper;
     @Resource
+    private BigTypeMapper bigTypeMapper;
+    @Resource
     private JewelrySizeMapper jewelrySizeMapper;
     @Resource
     private BagSizeMapper bagSizeMapper;
@@ -128,6 +130,12 @@ public class GoodToPdfService {
         SaleRank saleRank = saleRankMapper.selectByPrimaryKey(good.getSalesRank());
         if(saleRank!=null){
             good.setSalesRank(saleRank.getLevel());
+        }
+        if(StringUtils.isNoneBlank(good.getCategory())){
+            BigType bigType = bigTypeMapper.selectByPrimaryKey(Integer.valueOf(good.getCategory()));
+            if(bigType!=null){
+                good.setCategory(toCnInternational(bigType.getName()));
+            }
         }
         if(StringUtils.isNoneBlank(good.getCategory2())){
             MiddleType middleType

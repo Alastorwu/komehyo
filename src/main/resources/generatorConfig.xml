@@ -82,7 +82,7 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                 selectByExampleQueryId="false">
         </table>-->
-        <table tableName="t_good_excel" domainObjectName="GoodExcel"
+        <table tableName="big_type" domainObjectName="BigType"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
