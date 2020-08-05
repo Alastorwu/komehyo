@@ -37,8 +37,11 @@ public class GoodToPdfService {
     @Value("${file.pdf.path}")
     private String pdfPath;
 
+    @Transactional(rollbackFor = Exception.class)
     public String goodToPdf(int goodId) throws IOException, DocumentException {
         GoodsWithBLOBs good = goodsMapper.selectByPrimaryKey(goodId);
+        good.setPrinted(1);
+        goodsMapper.updateByPrimaryKey(good);
         this.formatGoodInternational(good);
         return pdfComponent.generatePrintPdf(good);
     }
