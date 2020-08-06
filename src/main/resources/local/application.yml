@@ -18,6 +18,10 @@ spring:
     name: komehyo
   banner:
     location: Budda.txt
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 60MB
   datasource:
     app:
       type: com.alibaba.druid.pool.DruidDataSource
