@@ -309,16 +309,16 @@ public class ITextPdfComponent {
 
         PdfPCell[] cells13 = initPdfCell(5);
         if("jewelry".equals(param.getType())){
-            cells13[1].setPhrase(new Paragraph(param.getGemstoneAccessoriesCheckType(),fontCom));
+            cells13[0].setPhrase(new Paragraph(param.getGemstoneAccessoriesCheckType(),fontCom));
         }else if("bags".equals(param.getType())){
-            cells13[1].setPhrase(new Paragraph(param.getBagAccessories(),fontCom));
+            cells13[0].setPhrase(new Paragraph(param.getBagAccessories(),fontCom));
         }else if("watch".equals(param.getType())){
-            cells13[1].setPhrase(new Paragraph(param.getWatchAccessories(),fontCom));
+            cells13[0].setPhrase(new Paragraph(param.getWatchAccessories(),fontCom));
         }else if("small_articles".equals(param.getType())){
-            cells13[1].setPhrase(new Paragraph(param.getSmallgoodsAccessories(),fontCom));
+            cells13[0].setPhrase(new Paragraph(param.getSmallgoodsAccessories(),fontCom));
         }
-        cells13[1].setHorizontalAlignment(Element.ALIGN_CENTER);
-        cells13[1].setColspan(4);
+        cells13[0].setHorizontalAlignment(Element.ALIGN_CENTER);
+        cells13[0].setColspan(5);
         PdfPRow row13 = new PdfPRow(cells13);
 
         PdfPCell[] cells14 = initPdfCell(5);
