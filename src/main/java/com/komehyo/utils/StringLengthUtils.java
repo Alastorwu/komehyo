@@ -64,8 +64,5 @@ public class StringLengthUtils {
         return  Math.ceil(valueLength);
     }
 
-    public static void main(String[] args) {
-        double len = StringLengthUtils.length("路易威登（LOUIS VUITTON）");
-        System.out.println(len);
-    }
+
 }

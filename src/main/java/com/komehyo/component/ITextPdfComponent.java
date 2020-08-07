@@ -5,6 +5,7 @@ import com.itextpdf.text.pdf.*;
 import com.komehyo.dao.entity.GoodsWithBLOBs;
 import com.komehyo.utils.MoneyFormatUtils;
 import com.komehyo.utils.StringLengthUtils;
+import com.komehyo.utils.StringNumberUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,7 +63,8 @@ public class ITextPdfComponent {
             log.warn("code:【{}】包含非数字！无法打印！",code);
             code = "0";
         }
-        log.info("条形码生成=="+ barcodeComponent.generateFile(code, barcodePath+"barcode.png"));
+
+        log.info("条形码生成=="+ barcodeComponent.generateFile(StringNumberUtil.replaceNum(code), barcodePath+"barcode.png"));
         return barcodePath+"barcode.png";
     }
     public boolean isInteger(String str) {
