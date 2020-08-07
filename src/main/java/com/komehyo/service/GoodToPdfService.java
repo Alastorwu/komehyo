@@ -29,48 +29,6 @@ public class GoodToPdfService {
     private InternationalMapper internationalMapper;
 
     @Resource
-    private ITextPdfComponent pdfComponent;
-
-    @Value("${file.zip.path}")
-    private String zipPath;
-
-    @Value("${file.pdf.path}")
-    private String pdfPath;
-
-    @Transactional(rollbackFor = Exception.class)
-    public String goodToPdf(int goodId) throws IOException, DocumentException {
-        GoodsWithBLOBs good = goodsMapper.selectByPrimaryKey(goodId);
-        good.setPrinted(1);
-        goodsMapper.updateByPrimaryKey(good);
-        this.formatGoodInternational(good);
-        return pdfComponent.generatePrintPdf(good);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    public String goodToPdZip(List<Integer> ids) throws Exception {
-        ZipUtils.delDir(pdfPath);
-        ZipUtils.delDir(zipPath);
-        File file = new File(pdfPath);
-        file.mkdirs();
-        file = new File(zipPath);
-        file.mkdirs();
-        for (Integer id : ids) {
-            GoodsWithBLOBs good = goodsMapper.selectByPrimaryKey(id);
-            if(good==null){
-                continue;
-            }
-            good.setPrinted(1);
-            goodsMapper.updateByPrimaryKey(good);
-            good = this.formatGoodInternational(good);
-            pdfComponent.generatePrintPdf(good);
-        }
-        String filePath = zipPath+"test.zip";
-        ZipUtils.toZip(pdfPath,zipPath+"test.zip",true);
-        return filePath;
-
-    }
-
-    @Resource
     private SaleRankMapper saleRankMapper;
     @Resource
     private MiddleTypeMapper middleTypeMapper;
@@ -112,6 +70,50 @@ public class GoodToPdfService {
     private GemstoneUnitMapper gemstoneUnitMapper;
     @Resource
     private JewelrySize2Mapper jewelrySize2Mapper;
+
+    @Resource
+    private ITextPdfComponent pdfComponent;
+
+    @Value("${file.zip.path}")
+    private String zipPath;
+
+    @Value("${file.pdf.path}")
+    private String pdfPath;
+
+    @Transactional(rollbackFor = Exception.class)
+    public String goodToPdf(int goodId) throws IOException, DocumentException {
+        GoodsWithBLOBs good = goodsMapper.selectByPrimaryKey(goodId);
+        good.setPrinted(1);
+        goodsMapper.updateByPrimaryKey(good);
+        this.formatGoodInternational(good);
+        return pdfComponent.generatePrintPdf(good);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public String goodToPdZip(List<Integer> ids) throws Exception {
+        ZipUtils.delDir(pdfPath);
+        ZipUtils.delDir(zipPath);
+        File file = new File(pdfPath);
+        file.mkdirs();
+        file = new File(zipPath);
+        file.mkdirs();
+        for (Integer id : ids) {
+            GoodsWithBLOBs good = goodsMapper.selectByPrimaryKey(id);
+            if(good==null){
+                continue;
+            }
+            good.setPrinted(1);
+            goodsMapper.updateByPrimaryKey(good);
+            good = this.formatGoodInternational(good);
+            pdfComponent.generatePrintPdf(good);
+        }
+        String filePath = zipPath+"test.zip";
+        ZipUtils.toZip(pdfPath,zipPath+"test.zip",true);
+        return filePath;
+
+    }
+
+
 
     private String toCnInternational(String id){
         if(StringUtils.isBlank(id)){
