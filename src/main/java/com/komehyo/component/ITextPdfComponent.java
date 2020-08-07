@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Component
@@ -57,8 +58,16 @@ public class ITextPdfComponent {
             if (mkdirs)
                 log.info("路径【"+barcodePath+"】不存在，新建文件夹");
         }
+        if(!isInteger(code)){
+            log.warn("code:【{}】包含非数字！无法打印！",code);
+            code = "0";
+        }
         log.info("条形码生成=="+ barcodeComponent.generateFile(code, barcodePath+"barcode.png"));
         return barcodePath+"barcode.png";
+    }
+    public boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
     }
 
     public String generatePrintPdf(GoodsWithBLOBs param)
