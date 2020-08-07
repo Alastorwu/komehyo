@@ -2,10 +2,12 @@ server:
   port: 8085
   servlet:
     context-path: /komehyo
+  max-http-header-size: 4048576
   tomcat:
     accept-count: 100
     max-threads: 100
     max-connections: 200
+    max-http-get-size: 1000m
 #  ssl:
 #    enabled: true
 #    key-store: C:\apache-tomcat-7.0.105\cert\komehyo-china.com.pfx
